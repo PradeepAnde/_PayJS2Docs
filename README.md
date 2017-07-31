@@ -39,7 +39,7 @@ PaymentsJS exposes a set of modules that each manage a single piece of gateway f
 1. `operations` are things you can do *with* a method -- eg, `Payment` or `Vault`.
 1. `features` are optional extras, like `Billing` or `Recurring`.
 
-You can think of `methods` as nouns and `operations` as verbs (and `features` as adjectives, maybe). By this analogy, you create requests by composing *sentences* -- "a recurring credit card payment".
+You can think of `methods` as nouns and `operations` as verbs (and `features` as adjectives, maybe). By this analogy, you create requests by composing *sentences* -- "a recurring credit card payment", for example.
 
 A typical PaymentsJS flow goes something like this:
 

@@ -43,7 +43,7 @@ In some applications, however, it makes more sense to integrate directly to the 
 1. `operations` are things you can do *with* a method -- eg, `Payment` or `Vault`.
 1. `features` are optional extras, like `Billing` or `Recurring`.
 
-You can think of `methods` as nouns and `operations` as verbs (and `features` as adjectives, maybe). By this analogy, you create requests by composing *sentences* -- "a recurring credit card payment".
+You can think of `methods` as nouns and `operations` as verbs (and `features` as adjectives, maybe). By this analogy, you create requests by composing *sentences* -- "a recurring credit card payment", for example.
 
 Every `method`, `operation`, and `feature` implements the same interface:
 
