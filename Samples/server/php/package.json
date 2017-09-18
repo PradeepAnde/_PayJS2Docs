@@ -1,0 +1,8 @@
+{
+  "name": "payjs-samples-php",
+  "version": "0.0.1",
+  "description": "Sample client request authentication using PHP.",
+  "scripts": {
+    "start": "php -S localhost:3001 -t auth/"
+  }
+}

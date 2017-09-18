@@ -1,0 +1,15 @@
+{
+  "name": "classic",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server ./ -p 3000 -o ",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Majid Razvi",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^0.10.0"
+  }
+}

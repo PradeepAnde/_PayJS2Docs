@@ -1,0 +1,15 @@
+{
+  "name": "payjs-samples-expressjs",
+  "version": "0.0.1",
+  "description": "Sample ExpressJS application using the PayJS middleware to authenticate clients.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@payjs/node": "^0.1.20",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.3",
+    "express": "^4.15.3"
+  }
+}

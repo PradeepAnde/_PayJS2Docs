@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>PaymentsJS Demo App</title>
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header-global">
+        </div>
+        <div class="header-secondary">
+            <div class="wrapper">
+                <a href="/" class="logo-product-rev"><img src="/assets/img/logo_sage.png" alt="Sage" width="57" height="22"></a>
+                <a href="/" class="logo-product"><img src="/assets/img/logo-sage-paymentsjs-white-@1x.png" alt="Sage" ></a>
+                <nav class="nav-secondary">
+                    <ul>
+                        <li><a href="/" class="menu-item">00. Getting Started</a></li>
+                        <li><a href="/01" class="menu-item">01. Concepts</a></li>
+                        <li><a href="/02" class="menu-item active">02. Running a Payment</a></li>
+                        <li><a href="/03" class="menu-item">03. Using the UI</a></li>
+                        <li><a href="/04" class="menu-item">04. Advanced</a></li>
+                        <li><a href="/05" class="menu-item">05. Docs/Reference</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-body container">
+        <div class="wrapper">
+            <h1>Running a Payment</h1>
+        </div>
+        <hr>
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-xs-3">
+                    <h3>Payment Form</h3>
+                    <div class="input-group">
+                        <label>cardNumber</label>
+                        <input type="text" class="form-control" id="cardNumber" value="5454545454545454">
+                    </div>
+                    <br/>
+                    <div class="input-group">
+                        <label>cardExpiration</label>
+                        <input type="text" class="form-control" id="cardExpiration" value="0928">
+                    </div>
+                    <br/>
+                    <div class="input-group">
+                        <label>cardCvv</label>
+                        <input type="text" class="form-control" id="cardCvv" value="123">
+                    </div>
+                    <br/>
+                    <div class="btn-group-vertical" style="width:100%">
+                        <button type="button" class="btn btn-primary" onclick="doPayment()">Submit</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetText()">Reset</button>
+                    </div>
+                </div>
+                <div class="col-xs-9">
+                    <h3>Configuration / Result</h3>
+                    <pre id="paymentResult">const el = id => document.getElementById(id)
+                            
+PayJS.Methods.CreditCard.data = {
+  number: el('cardNumber').value,
+  expiration: el('cardExpiration').value,
+  cvv: el('cardCvv').value
+}
+
+PayJS.Operations.Payment.data = {
+  totalAmount: '1.00'
+}
+
+PayJS.API.Request.Send({
+  methods: [ PayJS.Methods.CreditCard ],
+  operations: [ PayJS.Operations.Payment ],
+  features: [ ],
+  options: { /*...*/ },
+  callback: () => { /*...*/ },
+});</pre>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </main>
+
+    <footer class="footer affix-bottom">
+            <div class="wrapper">
+                <a href="http://www.sage.com" class="logo-sage"><img src="/assets/img/logo_sage_rev.png" alt="Sage" width="50" height="20"></a>
+                <ul>
+                    <li><a href="/01">&larr; Concepts</a></li>
+                    <li>Running a Payment</li>
+                    <li><a href="/03">Using the UI &rarr;</a></li>
+                </ul>
+            </div>
+    </footer>
+
+    <script type="text/javascript" src="https://qa.sagepayments.net/pay/dist/2.0.0/pay-core.js"></script>
+    <script type="text/javascript">
+        const el = id => document.getElementById(id);
+
+        // these are for the reset button:
+        const prevText = el('paymentResult').innerText;
+        const prevCardNumber = el('cardNumber').value;
+        const prevCardExpiration = el('cardExpiration').value;
+        const prevCardCvv = el('cardCvv').value;
+
+        function resetText() {
+            el('paymentResult').innerText = prevText;
+            el('cardNumber').value = prevCardNumber;
+            el('cardExpiration').value = prevCardExpiration;
+            el('cardCvv').value = prevCardCvv;
+        }
+
+        function doPayment() {
+            PayJS.Methods.CreditCard.data = {
+                number: el('cardNumber').value,
+                expiration: el('cardExpiration').value,
+                cvv: el('cardCvv').value
+            }
+
+            PayJS.Operations.Payment.data = {
+                totalAmount: '1.00'
+            }
+
+            PayJS.API.Request.Send({
+                methods: [ PayJS.Methods.CreditCard ],
+                operations: [ PayJS.Operations.Payment ],
+                features: [ ],
+                options: { auth: { url: 'http://localhost:3001/auth' } },
+                callback: (err, xhr, data, hash) => { 
+                    el('paymentResult').innerText = JSON.stringify(PayJS.API.Request.parseCallback(err, xhr, data, hash), null, 2)
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>PaymentsJS Demo App</title>
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header-global">
+        </div>
+        <div class="header-secondary">
+            <div class="wrapper">
+                <a href="/" class="logo-product-rev"><img src="/assets/img/logo_sage.png" alt="Sage" width="57" height="22"></a>
+                <a href="/" class="logo-product"><img src="/assets/img/logo-sage-paymentsjs-white-@1x.png" alt="Sage" ></a>
+                <nav class="nav-secondary">
+                    <ul>
+                        <li><a href="/" class="menu-item">00. Getting Started</a></li>
+                        <li><a href="/01" class="menu-item">01. Concepts</a></li>
+                        <li><a href="/02" class="menu-item">02. Running a Payment</a></li>
+                        <li><a href="/03" class="menu-item active">03. Using the UI</a></li>
+                        <li><a href="/04" class="menu-item">04. Advanced</a></li>
+                        <li><a href="/05" class="menu-item">05. Docs/Reference</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-body container">
+        <div class="wrapper">
+            <h1>Using the UI</h1>
+        </div>
+        <hr>
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3>Rendered UI:</h3>
+                    <span id="paymentContainer"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <h3>Configuration</h3>
+                    <pre>PayJS.Operations.Payment.data = {
+  totalAmount: '1.00'
+}
+
+PayJS.UI.Render({
+  methods: [ PayJS.Methods.CreditCard, PayJS.Methods.ACH ],
+  operations: [ PayJS.Operations.Payment ],
+  features: [ PayJS.Features.Billing ],
+  options: { /*...*/ },
+  uiOptions: { 
+      target: 'paymentContainer',
+      show: [ PayJS.Features.Billing ],
+      hide: { 'billing': 'country' }
+  },
+  callback: () => { /*...*/ },
+});</pre>
+                </div>
+                <div class="col-xs-6">
+                    <h3>Result</h3>
+                    <pre id="paymentResult"></pre>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </main>
+
+    <footer class="footer affix-bottom">
+            <div class="wrapper">
+                <a href="http://www.sage.com" class="logo-sage"><img src="/assets/img/logo_sage_rev.png" alt="Sage" width="50" height="20"></a>
+                <ul>
+                    <li><a href="/02">&larr; Running a Payment</a></li>
+                    <li>Using the UI</li>
+                    <li><a href="/04">Advanced &rarr;</a></li>
+                </ul>
+            </div>
+    </footer>
+
+    <script crossorigin src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-bootstrap@0.31.2/dist/react-bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://qa.sagepayments.net/pay/dist/2.0.0/pay.js"></script>
+    <script type="text/javascript">
+        PayJS.Operations.Payment.data = {
+            totalAmount: '1.00'
+        }
+
+        PayJS.UI.Render({
+            methods: [ PayJS.Methods.CreditCard, PayJS.Methods.ACH ],
+            operations: [ PayJS.Operations.Payment ],
+            features: [ PayJS.Features.Billing ],
+            options: { auth: { url: 'http://localhost:3001/auth' } },
+            uiOptions: { 
+                target: 'paymentContainer',
+                show: [ PayJS.Features.Billing ],
+                hide: { 'billing': 'country' }
+            },
+            callback: (err, xhr, data, hash) => { 
+                document.getElementById('paymentResult').innerText = JSON.stringify(PayJS.API.Request.parseCallback(err, xhr, data, hash), null, 2)
+            }
+        });
+    </script>
+
+</body>
+</html>

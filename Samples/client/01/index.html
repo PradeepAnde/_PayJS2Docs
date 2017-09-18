@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>PaymentsJS Demo App</title>
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header-global">
+        </div>
+        <div class="header-secondary">
+            <div class="wrapper">
+                <a href="/" class="logo-product-rev"><img src="/assets/img/logo_sage.png" alt="Sage" width="57" height="22"></a>
+                <a href="/" class="logo-product"><img src="/assets/img/logo-sage-paymentsjs-white-@1x.png" alt="Sage" ></a>
+                <nav class="nav-secondary">
+                    <ul>
+                        <li><a href="/" class="menu-item">00. Getting Started</a></li>
+                        <li><a href="/01" class="menu-item active">01. Concepts</a></li>
+                        <li><a href="/02" class="menu-item">02. Running a Payment</a></li>
+                        <li><a href="/03" class="menu-item">03. Using the UI</a></li>
+                        <li><a href="/04" class="menu-item">04. Advanced</a></li>
+                        <li><a href="/05" class="menu-item">05. Docs/Reference</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-body container">
+        <div class="wrapper">
+            <h1>Concepts</h1>
+        </div>
+        <hr>
+        <div class="wrapper">
+            <p>PaymentsJS exposes a set of modules that each manage a single piece of functionality. There's three types of module:</p>
+            <ul>
+                <li>"Methods" are ways of running a payment -- eg, <code>CreditCard</code> or <code>ACH</code>.</li>
+                <li>"Operations" are things you can do with a method -- eg, <code>Payment</code> or <code>Vault</code>.</li>
+                <li>"Features" are optional extras -- eg, <code>Billing</code> or <code>Recurring</code>.</li>
+            </ul>
+            <hr>
+            <p>You can think of methods as nouns and operations as verbs; you create requests by composing phrases like "credit card payment" or "vault ach".</p>
+            <p>Client-side, a typical PaymentsJS flow goes something like this:</p>
+            <ol>
+                <li>Configure some modules: 1+ methods, 1+ operations, and 0+ features.</li>
+                <li>Pass the modules to Request.Send() or UI.Render().</li>
+                <li>Handle the response with a callback function.</li>
+            </ol>
+        </div>
+        <hr>
+    </main>
+
+    <footer class="footer affix-bottom">
+        <div class="wrapper">
+            <a href="http://www.sage.com" class="logo-sage"><img src="/assets/img/logo_sage_rev.png" alt="Sage" width="50" height="20"></a>
+            <ul>
+                <li><a href="/">&larr; Getting Started</a></li>
+                <li>Concepts</li>
+                <li><a href="/02">Running a Payment &rarr;</a></li>
+            </ul>
+        </div>
+    </footer>
+
+</body>
+</html>
