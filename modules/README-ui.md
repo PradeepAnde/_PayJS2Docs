@@ -1,16 +1,10 @@
 # @payjs/ui
 
-*PaymentsJS is a JavaScript library that brings credit card processing out of the server and into the browser.*
-
 ## About
 
-This document is intended to be low-level reference material for the `@payjs/ui` library.
+PaymentsJS is a JavaScript library that facilitates client-side payment processing. This document provides low-level reference material for the `@payjs/ui` library.
 
-The [Developer Guide](https://github.com/SagePayments/PaymentsJS/blob/master/README.md) provides a high-level overview of working with PaymentsJS, and is the recommended starting point.
-
-The [GitHub repository](https://github.com/SagePayments/PaymentsJS) includes additional guides and sample code, tailored to more specific scenarios.
-
-The [npm packages](https://www.npmjs.com/org/payjs) dive into more detail on their respective features.
+The [Quick Start Guide](https://github.com/SagePayments/PaymentsJS/blob/master/README.md) provides a high-level overview of working with PaymentsJS, as well as links to additional resources, and is the recommended starting point.
 
 ## Table of Contents
 
@@ -19,10 +13,7 @@ The [npm packages](https://www.npmjs.com/org/payjs) dive into more detail on the
     - [Modules](#Modules)
 1. [UI](#UI)
     - [.Render()](#Render)
-    - [<UI>](#React)
-1. [Recipes](#Recipes)
-    - [All](#rAll)
-    - [Point of Sale](#POS)
+    - [&lt;UI&gt;](#React)
 
 <a name="Introduction"></a>
 # Introduction
@@ -37,13 +28,13 @@ In some applications, however, it makes more sense to integrate directly to the 
 <a name="Modules"></a>
 ## Modules
 
-`@payjs/core` exposes a set of modules that each manage a single piece of gateway functionality. There's three basic types of module:
+`@payjs/core` exposes a set of modules that each manage a single piece of functionality. There's three types of module:
 
-1. `methods` are *things you can use to run a payment* -- eg, `CreditCard` or `ACH`.
-1. `operations` are things you can do *with* a method -- eg, `Payment` or `Vault`.
-1. `features` are optional extras, like `Billing` or `Recurring`.
+1. `Methods` are ways of running a payment -- eg, `CreditCard` or `ACH`.
+1. `Operations` are things you can do *with* a `method` -- eg, `Payment` or `Vault`.
+1. `Features` are optional extras -- eg, `Billing` or `Recurring`.
 
-You can think of `methods` as nouns and `operations` as verbs (and `features` as adjectives, maybe). By this analogy, you create requests by composing *sentences* -- "a recurring credit card payment", for example.
+You can think of `methods` as nouns and `operations` as verbs. By this analogy, you create requests by composing phrases like "credit card payment" or "vault ach".
 
 Every `method`, `operation`, and `feature` implements the same interface:
 
@@ -107,17 +98,44 @@ The `uiOptions` object is used to configure the user interface:
 ```javascript
 {
     target,
+    modal: {
+        autoShow,
+        titleText,
+        buttonText,
+        buttonClass,
+        buttonStyle,
+    },
     show,
     hide,
     disable,
     disableStyles,
-    addFakeData,
+    mockMethodData,
     doKount,
-    delimiter
+    delimiter,
+    allowedCards: { 
+        amex,
+        disc,
+        visa,
+        mc,
+        error
+    },
+    suppressResultPage,
 }
 ```
 
-The `target` property is a string that contains the `id` -- no `'#'` needed -- of the element to which the UI should attach. If it's something clickable, like a `button`, the UI renders as a modal window that appears when the target is clicked. Otherwise, if it's a container like a `div` or `span`, the UI renders inside the target.
+The `target` property is a string that contains the `id` -- no `'#'` needed -- of the element to which the UI should attach.
+
+The `modal` property is an object that defaults to:
+```javascript
+{
+    autoShow: false,
+    titleText: 'Payment Details',
+    buttonText: 'Pay Now',
+    buttonClass: '',
+    buttonStyle: {},
+}
+```
+When `modal` is present, the UI is rendered inside a pop-up dialog. The `target` element receives a button that triggers the pop-up, rather than the UI itself. The `titleText` is used in the modal header. The `buttonText` displays on the trigger button. Use `buttonClass` to format the button with an external stylesheet, or `buttonStyle` to override/extend the [inline styles](https://facebook.github.io/react/docs/dom-elements.html#style).
 
 The `show` property is an array of `operations` and `features`. Some modules have UI components associated with them; use this option to display them. (You *don't* need to include your `methods` here.)
 
@@ -126,13 +144,12 @@ The `hide` and `disable` properties are used to remove/disable specific fields o
 ```javascript
 {
     // ...
-    show: [ Payment, Billing, SomeModule ],
+    show: [ Billing ],
     hide: {
-        'billing': [ 'name', 'country' ]
+        'billing': [ 'country' ]
     },
     disable: {
-        'payment': [ 'totalAmount' ],
-        'someModule': [ 'someField', 'someOtherField' ]
+        'billing': [ 'name' ],
     }
     // ...
 }
@@ -140,11 +157,25 @@ The `hide` and `disable` properties are used to remove/disable specific fields o
 
 The `disableStyles` property is a boolean that defaults to `false`. Setting it to `true` purges all CSS so you can prettify it to your own requirements.
 
-The `addFakeData` property is a boolean that defaults to `false`. Setting it to `true` plugs dummy data into the provided modules. This is purely a dev QoL feature.
+The `mockMethodData` property is a boolean that defaults to `false`. Setting it to `true` plugs dummy data into the provided modules. This is purely a dev QoL feature.
 
 The `doKount` property is a boolean that defaults to `false`. Setting it to `true` tells the interface to use the Kount service for additional security. (Kount must be enabled on your merchant account.)
 
 The `delimiter` property is a string that defaults to `'-'`. This character is used to format the credit card number field. To disable formatting entirely, set this option to `false`.
+
+The `allowedCards` property is an object that defaults to:
+```javascript
+{ 
+    amex: true,
+    disc: true,
+    visa: true,
+    mc: true,
+    error: 'Sorry, we do not accept #type# at this time'
+}
+```
+Setting `amex`, `disc`, `visa`, or `mc` to `false` results in the UI rejecting the corresponding cards. When this occurs the field displays `error`, with any instance of `'#type#'` replaced with the rejected type (eg, `'American Express'`).
+
+The `suppressResultPage` property is a boolean that defaults to `false`. Setting it to `true` prevents the UI from displaying the result page; ie, it remains on the "Processing" page until acted upon.
 
 <a name="React"></a>
 ## &lt;UI&gt;
@@ -162,62 +193,3 @@ render() {
     }}>
 }
 ```
-
-<a name="Recipes"></a>
-# Recipes
-
-`@payjs/ui/recipes`
-
-*Recipes are preconfigured combinations of methods, operations and features.*
-
-Recipes can be imported, adjusted as needed, and then used as a replacement for the configuration object that is passed into `UI.Render`:
-
-```javascript
-import { Render } from '@payjs/ui'
-import { SomeAdditionalMethod } from '@payjs/core/methods/all'
-import { SomeRecipe } from '@payjs/ui/recipes/somerecipe'
-
-SomeRecipe.options.auth = {
-    // ...
-}
-
-SomeRecipe.methods.push(SomeAdditionalMethod);
-
-UI.Render(SomeRecipe)
-```
-
-<a name="rAll"></a>
-## All
-
-The `all` module is simply a convenience object that reexports the other `recipes`. You can use this to reduce boilerplate when importing multiple `recipes`:
-
-```diff
-- import { PointOfSale } from '@payjs/ui/recipes/pointofsale'
-+ import { PointOfSale} from '@payjs/ui/recipes/all'
-```
-
-<a name="POS"></a>
-## Point of Sale
-
-The `PointOfSale` recipe is configured to mimic a typical retail environment:
-
-**`IMPORTANT: this recipe is not ready for production use.`**
-
-```javascript
-{
-    methods: [ Device, CreditCard ],
-    operations: [ Payment ],
-    features: [],
-    options: {},
-    uiOptions: {
-        show: [ Payment ],
-        hide: {
-            'payment': ['preAuth', 'orderNumber', 'shippingAmount']
-        },
-        disable: {
-           'payment': ['totalAmount', 'taxAmount', 'tipAmount'] 
-        }
-    }
-}
-```
-

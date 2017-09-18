@@ -1,16 +1,10 @@
 # @payjs/node
 
-*PaymentsJS is a JavaScript library that brings credit card processing out of the server and into the browser.*
-
 ## About
 
-This document is intended to be low-level reference material for the `@payjs/node` library.
+PaymentsJS is a JavaScript library that facilitates client-side payment processing. This document provides low-level reference material for the `@payjs/node` library.
 
-The [Developer Guide](https://github.com/SagePayments/PaymentsJS/blob/master/README.md) provides a high-level overview of working with PaymentsJS, and is the recommended starting point.
-
-The [GitHub repository](https://github.com/SagePayments/PaymentsJS) includes additional guides and sample code, tailored to more specific scenarios.
-
-The [npm packages](https://www.npmjs.com/org/payjs) dive into more detail on their respective features.
+The [Quick Start Guide](https://github.com/SagePayments/PaymentsJS/blob/master/README.md) provides a high-level overview of working with PaymentsJS, as well as links to additional resources, and is the recommended starting point.
 
 ## Table of Contents
 

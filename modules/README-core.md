@@ -1,16 +1,10 @@
 # @payjs/core
 
-*PaymentsJS is a JavaScript library that brings credit card processing out of the server and into the browser.*
-
 ## About
 
-This document is intended to be low-level reference material for the `@payjs/core` library.
+PaymentsJS is a JavaScript library that facilitates client-side payment processing. This document provides low-level reference material for the `@payjs/core` library.
 
-The [Developer Guide](https://github.com/SagePayments/PaymentsJS/blob/master/README.md) provides a high-level overview of working with PaymentsJS, and is the recommended starting point.
-
-The [GitHub repository](https://github.com/SagePayments/PaymentsJS) includes additional guides and sample code, tailored to more specific scenarios.
-
-The [npm packages](https://www.npmjs.com/org/payjs) dive into more detail on their respective features.
+The [Quick Start Guide](https://github.com/SagePayments/PaymentsJS/blob/master/README.md) provides a high-level overview of working with PaymentsJS, as well as links to additional resources, and is the recommended starting point.
 
 ## Table of Contents
 
@@ -21,18 +15,15 @@ The [npm packages](https://www.npmjs.com/org/payjs) dive into more detail on the
     - [.Send()](#Send)
     - [.parseCallback()](#ParseCallback)
 1. [Methods](#Methods)
-    - [All](#mAll)
     - [Credit Card](#CreditCard)
     - [Virtual Check](#ACH)
     - [Vault Token](#Token)
     - [Card Reader](#Device)
     - [Masterpass](#Masterpass)
 1. [Operations](#Operations)
-    - [All](#oAll)
     - [Payment](#Payment)
     - [Vault](#Vault)
 1. [Features](#Features)
-    - [All](#fAll)
     - [Bank](#mAll)
     - [Billing](#mAll)
     - [Config](#mAll)
@@ -58,13 +49,13 @@ In some applications, however, it makes more sense to integrate directly to the 
 <a name="Modules"></a>
 ## Modules
 
-`@payjs/core` exposes a set of modules that each manage a single piece of gateway functionality. There's three basic types of module:
+`@payjs/core` exposes a set of modules that each manage a single piece of functionality. There's three types of module:
 
-1. `methods` are *things you can use to run a payment* -- eg, `CreditCard` or `ACH`.
-1. `operations` are things you can do *with* a method -- eg, `Payment` or `Vault`.
-1. `features` are optional extras, like `Billing` or `Recurring`.
+1. `Methods` are ways of running a payment -- eg, `CreditCard` or `ACH`.
+1. `Operations` are things you can do *with* a `method` -- eg, `Payment` or `Vault`.
+1. `Features` are optional extras -- eg, `Billing` or `Recurring`.
 
-You can think of `methods` as nouns and `operations` as verbs (and `features` as adjectives, maybe). By this analogy, you create requests by composing *sentences* -- "a recurring credit card payment", for example.
+You can think of `methods` as nouns and `operations` as verbs. By this analogy, you create requests by composing phrases like "credit card payment" or "vault ach".
 
 Every `method`, `operation`, and `feature` implements the same interface:
 
@@ -167,7 +158,7 @@ Send({
 - `environment` defaults to `cert`; switch it to `prod` when you go live.
 - The `authKey` and `salt` authorize the request -- please see the Authentication section of the [Developer Guide](https://github.com/SagePayments/PaymentsJS/blob/master/README.md) for more information.
 - The `clientId` authenticates the calling application.
-- The `merchantId` and `merchantKey` identify the gateway account. **The `merchantKey` should be included in the server-side authKey calculation, but never exposed to the browser.** The `merchantId` *can* be exposed to the browser, but it's not necessary unless using certain features that need it client-side (eg, Kount).
+- The `merchantId` and `merchantKey` identify the gateway account. **The `merchantKey` should be included in the server-side `authKey` calculation, but never exposed to the browser.** The `merchantId` is necessary for certain client-side features -- eg, logging and Kount -- but is *required* only in the `authKey`.
 
 ### options.debug
 
@@ -180,13 +171,15 @@ Send({
       // ...
       debug: {
           verbose: false,
+          logInterval: 10000,
       }
   },
   // ...
 });
 ```
 
-`options.debug.verbose` is a boolean that defaults to `false`. Setting it to `true` causes PaymentsJS to output logs to the browser console.
+- `options.debug.verbose` is a boolean that defaults to `false`. Setting it to `true` causes PaymentsJS to output logs to the browser console.
+- `options.debug.logInterval` is a number that defaults to `10000`. This value controls the frequency at which the client library flushes its internal logs. Set it to `0` to disable log flushing.
 
 ### callback
 
@@ -348,7 +341,10 @@ The `Device` method is used to swipe cards through a physical reader:
 }
 ```
 
-- The `data.type` property is a string that identifies the encryption type of the card reader; eg, `'IDTech'` or `'MagTek'`.
+- The `data.type` property is a string that identifies the encryption type of the card reader; potential values include:
+    - `'IDTech'`
+    - `'MagTek'`
+    - `'MagTekCenturion'`
 - The `data.data` property is a string that contains the encrypted output from the reader; eg, `'02D201801F442800839B%*5454...'`.
 
 
