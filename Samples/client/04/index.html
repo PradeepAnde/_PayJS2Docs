@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PaymentsJS Demo App</title>
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header-global">
+        </div>
+        <div class="header-secondary">
+            <div class="wrapper">
+                <a href="/" class="logo-product-rev"><img src="/assets/img/logo_sage.png" alt="Sage" width="57" height="22"></a>
+                <a href="/" class="logo-product"><img src="/assets/img/logo-sage-paymentsjs-white-@1x.png" alt="Sage" ></a>
+                <nav class="nav-secondary">
+                    <ul>
+                        <li><a href="/" class="menu-item">00. Getting Started</a></li>
+                        <li><a href="/01" class="menu-item">01. Concepts</a></li>
+                        <li><a href="/02" class="menu-item">02. Running a Payment</a></li>
+                        <li><a href="/03" class="menu-item">03. Using the UI</a></li>
+                        <li><a href="/04" class="menu-item active">04. Hash Verification</a></li>
+                        <li><a href="/05" class="menu-item">05. Docs/Reference</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-body container">
+        <div class="wrapper">
+            <h1>Hash Verification</h1>
+        </div>
+        <hr>
+        <div class="wrapper">
+            <p>The response data is accompanied by a SHA512 HMAC, using your secret clientKey to sign. This value must be verified to validate the integrity of client-side data.</p>
+            <p>This page automatically runs a declined transaction in the background. Press the button to submit the response to the server sample for verification. Try tampering with the response before sending it, to make it appear as if it were approved.</p>
+            <div class="row">
+                <div class="col-xs-9">
+                    <h3>API Response</h3>
+                    <textarea id="paymentResult" style="width: 100%; height: 300px; font-family: Consolas, Monaco, Lucida Console, monospace">Processing...</textarea>
+                </div>
+                <div class="col-xs-3">
+                    <h3>Verification Result</h3>
+                    <div class="input-group">
+                        <label>Received Hash:</label>
+                        <input type="text" class="form-control" id="hashReceived" value="">
+                    </div>
+                    <br/>
+                    <div class="input-group">
+                        <label>Calculated Hash:</label>
+                        <input type="text" class="form-control" id="hashCalculated" value="">
+                    </div>
+                    <br/>
+                    <div class="btn-group-vertical" style="width:100%">
+                        <button type="button" class="btn btn-primary disabled" id="btnSubmit" onclick="sendResponseToServer()">Verify</button>
+                        <button type="button" class="btn btn-secondary" onclick="reset()">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </main>
+
+    <footer class="footer affix-bottom">
+            <div class="wrapper">
+                <a href="http://www.sage.com" class="logo-sage"><img src="/assets/img/logo_sage_rev.png" alt="Sage" width="50" height="20"></a>
+                <ul>
+                    <li><a href="/03">&larr; Using the UI</a></li>
+                    <li>Hash Verification</li>
+                    <li><a href="/05">Docs/Reference &rarr;</a></li>
+                </ul>
+            </div>
+    </footer>
+    
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="https://qa.sagepayments.net/pay/dist/2.0.0/pay-core.js"></script>
+    <script type="text/javascript">
+        PayJS.Methods.CreditCard.data = {
+            number: '5454545454545454',
+            expiration: '0928',
+            cvv: '123'
+        }
+
+        PayJS.Operations.Payment.data = {
+            totalAmount: '5.00'
+        }
+
+        const request = {
+            methods: [ PayJS.Methods.CreditCard ],
+            operations: [ PayJS.Operations.Payment ],
+            features: [ ],
+            options: { auth: { url: 'http://localhost:3001/auth' } },
+            callback: (err, xhr, data, hash) => { 
+                $('#paymentResult').val(JSON.stringify({ data, hash }, null, 2));
+                $('#btnSubmit').removeClass('disabled');
+            }
+        };
+
+        PayJS.API.Request.Send(request);
+
+        function reset() {
+            $('#btnSubmit').addClass('disabled');
+            $('#paymentResult, #hashReceived, #hashCalculated')
+                .val('')
+                .parent()
+                .removeClass('has-success has-error');
+            $('#paymentResult, #hashReceived, #hashCalculated')
+            PayJS.API.Request.Send(request);
+        }
+    </script>
+    <script type="text/javascript">
+        function sendResponseToServer() {
+            const data = JSON.parse($('#paymentResult').val());
+            $('#hashReceived, #hashCalculated')
+                .val('')
+                .parent()
+                .removeClass('has-success has-error');
+            $('#hashReceived').val(data.hash);
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:3001/verify',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: resp => {
+                    $('#hashCalculated').val(resp.calculated);
+                    $('#hashCalculated, #hashReceived').parent().addClass(resp.isMatch ? 'has-success' : 'has-error');
+                }
+            })
+        }
+    </script>
+</body>
+</html>

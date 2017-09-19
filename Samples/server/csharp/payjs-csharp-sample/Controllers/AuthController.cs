@@ -27,12 +27,12 @@ namespace payjs_csharp_sample.Controllers
             req["auth"]["salt"] = nonces.Salt;
 
             // you can override request data, if you want:
-            req["payment"]["totalAmount"] = "1.01";
+            //req["payment"]["totalAmount"] = "1.01";
 
             // or add new features:
-            req["custom"] = JToken.FromObject(new {
-                someNewCustomData = "this was added by the server during client-first auth"
-            });
+            //req["custom"] = JToken.FromObject(new {
+            //    someNewCustomData = "this was added by the server during client-first auth"
+            //});
             
             // create the authkey:
             req["auth"]["authKey"] = PaymentsJS.Encryption.Encrypt(
@@ -48,9 +48,9 @@ namespace payjs_csharp_sample.Controllers
             // and return at least the new 'auth' object to the client.
             // anything else is optional, and will override client data
             return new {
-                auth = req["auth"],
-                payment = req["payment"],
-                custom = req["custom"],
+                //payment = req["payment"],
+                //custom = req["custom"],
+                auth = req["auth"]
             };
         }
     }

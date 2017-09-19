@@ -7,7 +7,7 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@payjs/node": "^0.1.20",
+    "@payjs/node": "^0.1.25",
     "body-parser": "^1.17.2",
     "cors": "^2.8.3",
     "express": "^4.15.3"

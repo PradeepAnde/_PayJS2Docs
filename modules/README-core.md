@@ -698,7 +698,7 @@ The `Postback` feature is used to automatically forward API responses to a speci
 
 The specified URL will receive the response *twice*: one directly from the PaymentsJS API, and another forwarded from the client library.
 
-The callback receives the associated `XmlHttpRequest` as its single argument. This callback executes asynchronously; do not rely on it completing before or after any the general callback.
+The callback receives the associated `XmlHttpRequest` as its single argument. This callback executes asynchronously; do not rely on it completing before or after any other callback/s.
 
 
 <a name="Recurring"></a>

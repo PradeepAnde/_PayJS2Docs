@@ -13,6 +13,7 @@ The [Quick Start Guide](https://github.com/SagePayments/PaymentsJS/blob/master/R
 1. [Middleware](#Middleware)
 1. [Encryption](#Encryption)
     - [.encrypt()](#encrypt)
+    - [.testResponseHash()](#testResponseHash)
     - [.getRandomData()](#getRandomData)
 1. [Payload](#Payload)
     - [.getPayload()](#getPayload)
@@ -31,7 +32,7 @@ The `@payjs/node` library exposes helper methods to facilite authentication of r
 `@payjs/node`
 `@payjs/node/auth/middleware`
 
-*The middleware module is create authKeys for the PaymentsJS API in ExpressJS applications.*
+*The middleware module creates authKeys for the PaymentsJS API in ExpressJS applications.*
 
 This module is the default export of the `@payjs/node` package. When passed authentication credentials, it returns a middleware function that you can use in an ExpressJS route when doing client-first PaymentsJS authentication:
 
@@ -58,7 +59,7 @@ app.post('/auth', payjsAuth, (req, res) => {
 
 `@payjs/node/auth/encryption`
 
-*The encryption module is create authKeys for the PaymentsJS API.*
+*The encryption module creates authKeys for the PaymentsJS API.*
 
 <a name="encrypt"></a>
 ## .encrypt()
@@ -69,6 +70,22 @@ app.post('/auth', payjsAuth, (req, res) => {
 const encrypt = require('@payjs/node/auth/encryption').encrypt;
 const authKey = encrypt({ methods, operations, features, options }, 'myClientKey');
 // ==> 'AbcDe1234FgLoL928=='
+```
+
+<a name="testResponseHash"></a>
+## .testResponseHash()
+
+`testResponseHash` is a function that receives a PaymentsJS API response and a `clientKey`, and returns an object with a calculated hash:
+
+```javascript
+const testResponseHash = require('@payjs/node/auth/encryption').testResponseHash;
+console.log(testResponseHash({ data: 'someResponseData', hash: 'AbCd=' }, 'myClientKey'));
+// ==> Object {
+//    data: 'someResponseData',
+//    received: 'AbCd=',
+//    calculated: 'BcDe=',
+//    isMatch: false
+// }
 ```
 
 <a name="getRandomData"></a>
@@ -92,7 +109,7 @@ console.log(getRandomData(16));
 
 `@payjs/node/auth/payload`
 
-*The payload module is serialize configuration objects into JSON payloads for the PaymentsJS API.*
+*The payload module serializes configuration objects into JSON payloads for the PaymentsJS API.*
 
 <a name="getPayload"></a>
 ## .getPayload()

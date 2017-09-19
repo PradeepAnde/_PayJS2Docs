@@ -173,9 +173,17 @@ If you're done reading docs and ready to play with some code:
 
 Use the [Developer Portal](https://developer.sagepayments.com/) to send a message or post on the forums.
 
-## How do I get developer credentials?
+## How do I get developer credentials for testing?
 
-For sandbox credentials, register on the [Developer Portal](https://developer.sagepayments.com/). For production credentials, please contact support to schedule a (quick and painless!) certification call.
+Register on the [Developer Portal](https://developer.sagepayments.com/) to obtain sandbox credentials.
+
+## How do I get developer credentials for production?
+
+Please contact support to schedule a certification call. Certification is painless and involves:
+
+1. making sure everything is working as expected, transaction data is being processed correctly, etc.
+1. confirming that your application is appropriately verifying all request and response data
+1. reviewing the security features of the site that limit access to the payment form (login, Captcha, etc.)
 
 ## How do I get merchant credentials?
 

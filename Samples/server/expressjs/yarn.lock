@@ -2,15 +2,15 @@
 # yarn lockfile v1
 
 
-"@payjs/core@^0.1.28":
-  version "0.1.30"
-  resolved "https://registry.yarnpkg.com/@payjs/core/-/core-0.1.30.tgz#d3a577e1f23e821db61d8f2d7e1e7d65cdaef6ab"
+"@payjs/core@^0.3.13":
+  version "0.3.13"
+  resolved "https://registry.yarnpkg.com/@payjs/core/-/core-0.3.13.tgz#8f876e63d9139490fd64b6252a893186a0fc8a63"
 
-"@payjs/node@^0.1.20":
-  version "0.1.20"
-  resolved "https://registry.yarnpkg.com/@payjs/node/-/node-0.1.20.tgz#8a49661d36135722c7ebea7c82a25840a58d2f46"
+"@payjs/node@^0.1.25":
+  version "0.1.25"
+  resolved "https://registry.yarnpkg.com/@payjs/node/-/node-0.1.25.tgz#926f88150e7885fe83c07791f37530657be057ee"
   dependencies:
-    "@payjs/core" "^0.1.28"
+    "@payjs/core" "^0.3.13"
     crypto-js "^3.1.9-1"
 
 accepts@~1.3.3:
