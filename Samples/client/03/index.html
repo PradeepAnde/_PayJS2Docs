@@ -33,12 +33,6 @@
         <hr>
         <div class="wrapper">
             <div class="row">
-                <div class="col-xs-12">
-                    <h3>Rendered UI:</h3>
-                    <span id="paymentContainer"></span>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-xs-6">
                     <h3>Configuration</h3>
                     <pre>PayJS.Operations.Payment.data = {
@@ -52,11 +46,13 @@ PayJS.UI.Render({
   options: { /*...*/ },
   uiOptions: { 
       target: 'paymentContainer',
+      modal: { buttonText: 'SHOW UI' },
       show: [ PayJS.Features.Billing ],
       hide: { 'billing': 'country' }
   },
   callback: () => { /*...*/ },
 });</pre>
+                <span id="paymentContainer"></span>
                 </div>
                 <div class="col-xs-6">
                     <h3>Result</h3>
