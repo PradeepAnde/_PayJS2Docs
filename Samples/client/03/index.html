@@ -94,6 +94,7 @@ PayJS.UI.Render({
             options: { auth: { url: 'http://localhost:3001/auth' } },
             uiOptions: { 
                 target: 'paymentContainer',
+                modal: { buttonText: 'SHOW UI' },
                 show: [ PayJS.Features.Billing ],
                 hide: { 'billing': 'country' }
             },
