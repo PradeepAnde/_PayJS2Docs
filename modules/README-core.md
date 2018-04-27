@@ -60,7 +60,7 @@ You can think of `methods` as nouns and `operations` as verbs. By this analogy, 
 Every `method`, `operation`, and `feature` implements the same interface:
 
 ```javascript
-import { Module } from '@payjs/foo/bar/module';
+import { Module } from '@payjs/example/path/module';
 
 console.log(Module);
 // ==> Object {
@@ -433,7 +433,7 @@ The `Vault` operation is used to process a transaction:
 ```
 
 - The `data.token` property is a string that contains the vault identifier; eg, `'84a14c1f853d4c0dabbaa9dad49913b5'`.
-- The `data.operation` property is a string that contains the CRUD operation to perform on the `token`; ie, `'Create'`, `'Read'`, `'Update'`, or `'Delete'`.
+- The `data.operation` property is a string that contains the CRUD operation to perform on the `token`; ie, `'Create'`, `'Update'`, or `'Delete'`.
 
 
 <a name="Features"></a>
@@ -553,7 +553,7 @@ The `Custom` feature is used to pass arbitrary business data:
 {
     name: 'custom',
     data: {
-        foo: 'bar'
+        example: 'yes'
     }
 }
 ```
